@@ -8,7 +8,7 @@ git clone https://github.com/sbwml/arm-trusted-firmware-rockchip package/boot/ar
 # Fix linux-5.10
 if [ "$version" = "rc" ]; then
     curl -s https://$mirror/openwrt/patch/kernel-5.10/config-5.10 > target/linux/generic/config-5.10
-    curl -s https://$mirror/openwrt/patch/kernel_modules/5.10-video.mk > package/kernel/linux/modules/video.mk
+    curl -s https://$mirror/openwrt/patch/kernel-5.10/5.10-video.mk > package/kernel/linux/modules/video.mk
 fi
 
 # Fix x86 - CONFIG_ALL_KMODS
