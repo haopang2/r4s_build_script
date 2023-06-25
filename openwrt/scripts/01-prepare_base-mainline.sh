@@ -85,8 +85,19 @@ pushd target/linux/generic/backport-6.1
 popd
 
 # linux-firmware
-rm -rf package/firmware/linux-firmware
-git clone https://nanopi:nanopi@$gitea/sbwml/package_firmware_linux-firmware package/firmware/linux-firmware
+if [ "$version" = "rc" ]; then
+    rm -rf package/firmware/linux-firmware
+    git clone https://nanopi:nanopi@$gitea/sbwml/package_firmware_linux-firmware package/firmware/linux-firmware
+else
+    sed -i '$a\Package/rtw89-firmware = $(call Package/firmware-default,RealTek RTW89 firmware)\
+define Package/rtw89-firmware/install\
+\t$(INSTALL_DIR) $(1)/lib/firmware/rtw89\
+\t$(CP) \\\
+\t\t$(PKG_BUILD_DIR)/rtw89/* \\\
+\t\t$(1)/lib/firmware/rtw89\
+endef\
+$(eval $(call BuildPackage,rtw89-firmware))' package/firmware/linux-firmware/realtek.mk
+fi
 
 # ath10k-ct - fix mac80211 6.1-rc
 if [ "$version" = "rc" ]; then

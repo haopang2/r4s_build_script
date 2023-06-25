@@ -237,15 +237,13 @@ EOF
 fi
 
 # OpenSSL
-if [ ! "$platform" = "x86_64" ]; then
+if [ ! "$platform" = "x86_64" ] && [ "$version" = "rc" ]; then
     sed -i "s/O3/Ofast/g" package/libs/openssl/Makefile
     if [ "$version" = "rc" ]; then
         curl -s https://$mirror/openwrt/patch/openssl/11895.patch > package/libs/openssl/patches/11895.patch
         curl -s https://$mirror/openwrt/patch/openssl/14578.patch > package/libs/openssl/patches/14578.patch
         curl -s https://$mirror/openwrt/patch/openssl/16575.patch > package/libs/openssl/patches/16575.patch
         curl -s https://$mirror/openwrt/patch/openssl/999-Ofast.patch > package/libs/openssl/patches/999-Ofast.patch
-    elif [ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ]; then
-        curl -s https://$mirror/openwrt/patch/openssl/999-3.0-Ofast.patch > package/libs/openssl/patches/999-Ofast.patch
     fi
 
     # enable cryptodev
@@ -281,7 +279,7 @@ popd
 # haproxy - fix build for 23.05
 if [ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ]; then
     rm -rf feeds/packages/net/haproxy
-    git clone https://github.com/sbwml/feeds_packages_net_haproxy feeds/packages/net/haproxy
+    cp -a ../master/packages/net/haproxy feeds/packages/net/haproxy
 fi
 
 # procps-ng - top
@@ -363,8 +361,8 @@ sed -i "s/openwrt.org/www.qq.com/g" feeds/luci/modules/luci-mod-network/htdocs/l
 # samba4
 if [ "$version" = "rc" ] || [ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ]; then
     # bump version
-    SAMBA4_VERSION=4.18.2
-    SAMBA4_HASH=5bf87e179616cd12a52d85fb8b26eec709f13709a2b67fe42b1fb0213f7e8106
+    SAMBA4_VERSION=4.18.3
+    SAMBA4_HASH=c67e1453165a3918ffffad600236ca3966b47bde4798e89ae600ae3903ccc32c
     rm -rf feeds/packages/net/samba4
     cp -a ../master/packages/net/samba4 feeds/packages/net/samba4
     sed -ri "s/(PKG_VERSION:=)[^\"]*/\1$SAMBA4_VERSION/;s/(PKG_HASH:=)[^\"]*/\1$SAMBA4_HASH/" feeds/packages/net/samba4/Makefile
