@@ -12,7 +12,7 @@ grep HASH include/kernel-6.1 | awk -F'HASH-' '{print $2}' | awk '{print $1}' | m
 curl -s https://$mirror/openwrt/patch/KBUILD_BUILD_TIMESTAMP.patch | patch -p1
 
 # kernel generic patches
-git clone https://github.com/sbwml/target_linux_generic
+git clone git@github.com:sbwml/target_linux_generic
 rm -rf target/linux/generic/*-6.* target/linux/generic/files
 mv target_linux_generic/target/linux/generic/* target/linux/generic/
 sed -i '/CONFIG_CC_OPTIMIZE_FOR_PERFORMANCE/d' target/linux/generic/config-6.1

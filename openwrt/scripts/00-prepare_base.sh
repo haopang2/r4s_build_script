@@ -2,8 +2,8 @@
 
 # Rockchip - rkbin & u-boot 2023.01
 rm -rf package/boot/uboot-rockchip package/boot/arm-trusted-firmware-rockchip
-git clone https://github.com/sbwml/package_boot_uboot-rockchip package/boot/uboot-rockchip
-git clone https://github.com/sbwml/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
+git clone git@github.com:sbwml/package_boot_uboot-rockchip package/boot/uboot-rockchip
+git clone git@github.com:sbwml/arm-trusted-firmware-rockchip package/boot/arm-trusted-firmware-rockchip
 
 # Fix linux-5.10
 if [ "$version" = "rc" ]; then
@@ -34,11 +34,11 @@ fi
 # NIC driver - x86
 if [ "$platform" = "x86_64" ]; then
     # r8101
-    git clone https://github.com/sbwml/package_kernel_r8101 package/kernel/r8101
+    git clone git@github.com:sbwml/package_kernel_r8101 package/kernel/r8101
 fi
 # R8168 & R8125 & R8152
-git clone https://github.com/sbwml/package_kernel_r8168 package/kernel/r8168
-git clone https://github.com/sbwml/package_kernel_r8152 package/kernel/r8152
+git clone git@github.com:sbwml/package_kernel_r8168 package/kernel/r8168
+git clone git@github.com:sbwml/package_kernel_r8152 package/kernel/r8152
 git clone https://$gitea/sbwml/package_kernel_r8125 package/kernel/r8125
 
 # netifd - fix auto-negotiate by upstream
@@ -49,7 +49,7 @@ fi
 
 # Wireless Drivers
 rm -rf package/kernel/rtl8812au-ct
-git clone https://github.com/sbwml/openwrt-wireless-drivers package/kernel/wireless
+git clone git@github.com:sbwml/openwrt-wireless-drivers package/kernel/wireless
 if [ "$version" = "rc" ]; then
     # hostapd: make LAR-friendly AP mode for AX200/AX210
     curl -s https://$mirror/openwrt/patch/hostapd-22.03/999-hostapd-2.10-lar.patch > package/network/services/hostapd/patches/999-hostapd-2.10-lar.patch
@@ -313,7 +313,7 @@ fi
 
 # nginx - latest version
 rm -rf feeds/packages/net/nginx
-git clone https://github.com/sbwml/feeds_packages_net_nginx feeds/packages/net/nginx
+git clone git@github.com:sbwml/feeds_packages_net_nginx feeds/packages/net/nginx
 sed -i 's/procd_set_param stdout 1/procd_set_param stdout 0/g;s/procd_set_param stderr 1/procd_set_param stderr 0/g' feeds/packages/net/nginx/files/nginx.init
 
 # nginx - ubus
@@ -406,7 +406,7 @@ fi
 # xfsprogs - 6.2.0
 if [ "$version" = "rc" ]; then
     rm -rf feeds/packages/utils/xfsprogs
-    git clone https://github.com/sbwml/packages_utils_xfsprogs package/xfsprogs
+    git clone git@github.com:sbwml/packages_utils_xfsprogs package/xfsprogs
 fi
 
 # NTP

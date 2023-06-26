@@ -2,37 +2,37 @@
 
 # golang 1.20
 rm -rf feeds/packages/lang/golang
-git clone https://github.com/sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
+git clone git@github.com:sbwml/packages_lang_golang -b 20.x feeds/packages/lang/golang
 
 # Default settings
-git clone https://github.com/sbwml/default-settings package/new/default-settings
+git clone git@github.com:sbwml/default-settings package/new/default-settings
 
 # DDNS
 sed -i '/boot()/,+2d' feeds/packages/net/ddns-scripts/files/etc/init.d/ddns
 
 # FRP
 rm -rf feeds/packages/net/frp
-git clone https://github.com/sbwml/feeds_packages_net_frp feeds/packages/net/frp
+git clone git@github.com:sbwml/feeds_packages_net_frp feeds/packages/net/frp
 
 # autoCore
-[ "$version" = "rc" ] && git clone https://github.com/sbwml/autocore-arm -b openwrt-22.03 package/new/autocore
-[ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ] && git clone https://github.com/sbwml/autocore-arm -b openwrt-23.05 package/new/autocore
+[ "$version" = "rc" ] && git clone git@github.com:sbwml/autocore-arm -b openwrt-22.03 package/new/autocore
+[ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ] && git clone git@github.com:sbwml/autocore-arm -b openwrt-23.05 package/new/autocore
 
 # Aria2 & ariaNG
 rm -rf feeds/packages/net/ariang
 rm -rf feeds/luci/applications/luci-app-aria2
-git clone https://github.com/sbwml/ariang-nginx package/ariang-nginx
+git clone git@github.com:sbwml/ariang-nginx package/ariang-nginx
 rm -rf feeds/packages/net/aria2
-git clone https://github.com/sbwml/feeds_packages_net_aria2 -b 22.03 feeds/packages/net/aria2
+git clone git@github.com:sbwml/feeds_packages_net_aria2 -b 22.03 feeds/packages/net/aria2
 
 # SSRP & Passwall
 rm -rf feeds/packages/net/{xray-core,v2ray-core}
-git clone https://github.com/sbwml/openwrt_helloworld package/helloworld -b v5
+git clone git@github.com:sbwml/openwrt_helloworld package/helloworld -b v5
 
 # fw4 科学工具
 if [ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ]; then
     # homeproxy
-    git clone https://github.com/immortalwrt/homeproxy package/homeproxy/homeproxy
+    git clone git@github.com:immortalwrt/homeproxy package/homeproxy/homeproxy
     sed -i "s/ImmortalWrt/OpenWrt/g" package/homeproxy/homeproxy/po/zh_Hans/homeproxy.po
     sed -i "s/ImmortalWrt proxy/OpenWrt proxy/g" package/homeproxy/homeproxy/htdocs/luci-static/resources/view/homeproxy/{client.js,server.js}
     # sing-box
@@ -41,7 +41,7 @@ if [ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ]; then
 fi
 
 # alist
-git clone https://github.com/sbwml/openwrt-alist package/alist
+git clone git@github.com:sbwml/openwrt-alist package/alist
 
 # Netdata
 rm -rf feeds/packages/admin/netdata
@@ -49,30 +49,30 @@ cp -a ../master/packages/admin/netdata feeds/packages/admin/netdata
 sed -i 's/syslog/none/g' feeds/packages/admin/netdata/files/netdata.conf
 
 # OpenAI
-git clone https://github.com/sbwml/luci-app-openai package/openai
+git clone git@github.com:sbwml/luci-app-openai package/openai
 
 # qBittorrent
-git clone https://github.com/sbwml/luci-app-qbittorrent package/qbittorrent
+git clone git@github.com:sbwml/luci-app-qbittorrent package/qbittorrent
 
 # Zerotier
-git clone https://$gitea/sbwml/luci-app-zerotier package/new/luci-app-zerotier
+git clone https://$gitea:sbwml/luci-app-zerotier package/new/luci-app-zerotier
 
 # 解除网易云音乐播放限制
-git clone https://github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic package/new/luci-app-unblockneteasemusic
+git clone git@github.com/UnblockNeteaseMusic/luci-app-unblockneteasemusic package/new/luci-app-unblockneteasemusic
 sed -i 's/解除网易云音乐播放限制/解锁网易云音乐/g' package/new/luci-app-unblockneteasemusic/root/usr/share/luci/menu.d/luci-app-unblockneteasemusic.json
 
 # xunlei
-git clone https://github.com/sbwml/luci-app-xunlei package/xunlei
+git clone git@github.com:sbwml/luci-app-xunlei package/xunlei
 
 # Theme
-git clone --depth 1 https://github.com/sbwml/luci-theme-argon.git package/new/luci-theme-argon
+git clone --depth 1 git@github.com:sbwml/luci-theme-argon.git package/new/luci-theme-argon
 
 # Mosdns
 rm -rf feeds/packages/net/v2ray-geodata
-git clone https://github.com/sbwml/luci-app-mosdns -b v5 package/mosdns
+git clone git@github.com:sbwml/luci-app-mosdns -b v5 package/mosdns
 
 # OpenAppFilter
-git clone https://github.com/sbwml/OpenAppFilter --depth=1 package/new/OpenAppFilter
+git clone git@github.com:sbwml/OpenAppFilter --depth=1 package/new/OpenAppFilter
 
 # iperf3 - 3.13
 sed -ri "s/(PKG_VERSION:=)[^\"]*/\13.13/;s/(PKG_HASH:=)[^\"]*/\1bee427aeb13d6a2ee22073f23261f63712d82befaa83ac8cb4db5da4c2bdc865/" feeds/packages/net/iperf3/Makefile
@@ -84,9 +84,9 @@ sed -i 's/services/network/g' feeds/luci/applications/luci-app-nlbwmon/htdocs/lu
 #### 磁盘分区 / 清理内存 / 打印机 / 定时重启 / 数据监控 / KMS / 访问控制（互联网时间）/ ADG luci / IP 限速 / 文件管理器 / CPU / 迅雷快鸟
 rm -rf feeds/packages/utils/coremark
 if [ "$version" = "snapshots-23.05" ] || [ "$version" = "rc2" ]; then
-    git clone https://github.com/sbwml/openwrt_pkgs package/openwrt_pkgs --depth=1
+    git clone git@github.com:sbwml/openwrt_pkgs package/openwrt_pkgs --depth=1
 else
-    git clone https://github.com/sbwml/openwrt_pkgs package/openwrt_pkgs -b 22.03 --depth=1
+    git clone git@github.com:sbwml/openwrt_pkgs package/openwrt_pkgs -b 22.03 --depth=1
 fi
 rm -rf package/openwrt_pkgs/ddns-scripts-dnspod
 
@@ -105,4 +105,4 @@ sed -i "s,option fps '5',option fps '25',g" feeds/packages/multimedia/mjpg-strea
 
 # luci-app-mjpg-streamer
 rm -rf feeds/luci/applications/luci-app-mjpg-streamer
-git clone https://github.com/sbwml/luci-app-mjpg-streamer feeds/luci/applications/luci-app-mjpg-streamer
+git clone git@github.com:sbwml/luci-app-mjpg-streamer feeds/luci/applications/luci-app-mjpg-streamer
