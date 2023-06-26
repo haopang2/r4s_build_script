@@ -50,7 +50,7 @@ fi
 
 # source mirror
 if [ "$isCN" = "CN" ]; then
-    export github_mirror="https://github.com"
+    export github_mirror="git@github.com"
     openwrt_release_mirror="mirror.sjtu.edu.cn/openwrt/releases"
 else
     export github_mirror="https://github.com"
@@ -123,15 +123,15 @@ echo -e "${GREEN_COLOR}Date: $CURRENT_DATE${RES}\r\n"
 # get source
 rm -rf openwrt master && mkdir master
 # openwrt - releases
-git clone --depth=1 $github_mirror/openwrt/openwrt -b $branch
+git clone --depth=1 $github_mirror:openwrt/openwrt -b $branch
 
 # openwrt master
-git clone $github_mirror/openwrt/openwrt master/openwrt --depth=1
-git clone $github_mirror/openwrt/packages master/packages --depth=1
-git clone $github_mirror/openwrt/luci master/luci --depth=1
-git clone $github_mirror/openwrt/routing master/routing --depth=1
+git clone $github_mirror:openwrt/openwrt master/openwrt --depth=1
+git clone $github_mirror:openwrt/packages master/packages --depth=1
+git clone $github_mirror:openwrt/luci master/luci --depth=1
+git clone $github_mirror:openwrt/routing master/routing --depth=1
 # immortalwrt master
-git clone $github_mirror/immortalwrt/packages master/immortalwrt_packages --depth=1
+git clone $github_mirror:immortalwrt/packages master/immortalwrt_packages --depth=1
 
 if [ -d openwrt ]; then
     cd openwrt
@@ -174,10 +174,10 @@ else
     telephony=";$branch"
 fi
 cat > feeds.conf <<EOF
-src-git packages $github_mirror/openwrt/packages.git$packages
-src-git luci $github_mirror/openwrt/luci.git$luci
-src-git routing $github_mirror/openwrt/routing.git$routing
-src-git telephony $github_mirror/openwrt/telephony.git$telephony
+src-git packages $github_mirror:openwrt/packages.git$packages
+src-git luci $github_mirror:openwrt/luci.git$luci
+src-git routing $github_mirror:openwrt/routing.git$routing
+src-git telephony $github_mirror:openwrt/telephony.git$telephony
 EOF
 
 # Init feeds
@@ -194,14 +194,14 @@ fi
 echo -e "\n${GREEN_COLOR}Patching ...${RES}\n"
 
 # scripts
-curl -sO https://$mirror/openwrt/scripts/00-prepare_base.sh
-curl -sO https://$mirror/openwrt/scripts/01-prepare_base-mainline.sh
-curl -sO https://$mirror/openwrt/scripts/02-prepare_package.sh
-curl -sO https://$mirror/openwrt/scripts/03-convert_translation.sh
-curl -sO https://$mirror/openwrt/scripts/04-fix_kmod.sh
-curl -sO https://$mirror/openwrt/scripts/05-fix-source.sh
-curl -sO https://$mirror/openwrt/scripts/99_clean_build_cache.sh
-chmod 0755 *sh
+#curl -sO https://$mirror/openwrt/scripts/00-prepare_base.sh
+#curl -sO https://$mirror/openwrt/scripts/01-prepare_base-mainline.sh
+#curl -sO https://$mirror/openwrt/scripts/02-prepare_package.sh
+#curl -sO https://$mirror/openwrt/scripts/03-convert_translation.sh
+#curl -sO https://$mirror/openwrt/scripts/04-fix_kmod.sh
+#curl -sO https://$mirror/openwrt/scripts/05-fix-source.sh
+#curl -sO https://$mirror/openwrt/scripts/99_clean_build_cache.sh
+#chmod 0755 *sh
 bash 00-prepare_base.sh
 bash 02-prepare_package.sh
 bash 03-convert_translation.sh
